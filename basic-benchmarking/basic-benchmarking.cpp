@@ -26,6 +26,9 @@ constexpr int NUM_OF_ELEMENTS = 11;
 float array[HEIGHT][WIDTH];
 float times[NUM_OF_ELEMENTS];
 int stackTop = -1;
+float sum = 0;
+float xVal = 0;
+float yVal = 0;
 
 void storeTime(float time);
 void sortTimes();
@@ -52,15 +55,40 @@ int main(int argc, char *argv[])
 		//sleep_for(milliseconds(303));
 
 		// Sum the array index values.
-		float sum = 0;
+		//float sum = 0;
 
-		for (float row = 0; row < HEIGHT; ++row)
+		
+
+		for (int y = 0; y < WIDTH; ++y)
 		{
-			for (float col = 0; col < WIDTH; ++col)
+			for (int x = 0; x < HEIGHT; ++x)
 			{
-				sum += (row + col);
+				sum += array[y][x];
 
-				//std::cout << val_1 << " - " << val_2 << '\n';
+				// Summing with outer loop (X), innner loop (Y), avg median timing = 306ms
+				// Summing with outer loop (Y), innner loop (X), avg median timing = 190ms - faster due to how memory is accessed, arrays are stored in contiguous blocks.
+
+				// Changed the WIDTH and HEIGHT to 500 x 1000, as it was taking far too long with the print statement.
+				// No Debug printing, median avg ~ 3ms
+				// Debug printing, median avg ~ 23078ms
+
+				// Arr size 500 x 1000 time ~ 3ms
+				// Arr size 1000 x 2000 time ~ 15ms
+				// Arr size 2000 x 4000 time ~ 59ms
+				// Arr size 400 x 8000 time ~ 228ms
+
+				// x outer loop y inner - DEBUG MODE - Arr size 5000 x 10000 - time ~ 352ms
+				// x outer loop y inner - RELEASE MODE - Arr size 5000 x 10000 - time ~ 109ms
+
+				// DEBUG MODE printing sum - time ~ 361ms
+				// DEBUG MODE not printing sum - time ~ 352ms
+				// RELEASE MODE printing sum - time ~ 110ms
+				// RELEASE MODE not printing sum - time ~ 0ms
+
+				// timings with sum as a local variable DEBUG MODE and printing - time ~ 359ms
+				// timings with sum as a global variable DEBUG MODE and printing - time ~ 357ms
+
+				//std::cout << "Measuring the overhead of a debug printing statement\n";
 			}
 		}
 
